@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:uno",
-    "port": "/dev/ttyACM0",
-    "sketch": "Test/Test.ino",
+    "port": "COM4",
+    "sketch": "KY039\\KY039.ino",
     "programmer": "avrisp"
 }

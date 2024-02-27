@@ -6,6 +6,8 @@ void motorControl(bool forward, int speed);
 
 void setup() {
   // Set the pin modes
+  pinMode(10, OUTPUT);
+  analogWrite(10, 255);
   pinMode(forwardPin, OUTPUT);
   pinMode(backwardPin, OUTPUT);
 }
