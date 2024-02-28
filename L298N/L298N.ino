@@ -5,17 +5,9 @@
 #define motor1_Pin2 6          // L298N motor pin 2
 #define motor2_Pin1 9          // L298N motor pin 3
 #define motor2_Pin2 10          // L298N motor pin 4
-#define buttonPin1 4         // Button for forward
-#define buttonPin2 5         // Button for backward
-#define photoresistorPin1 A0 // Photoresistor 1 pin
-#define photoresistorPin2 A1 // Photoresistor 2 pin
+#define forwardStopSwitch 2         // Button for forward
+#define backwardStopSwitch 3         // Button for backward
 
-// Threshold values for photoresistors
-const int threshold1 = 500; // Threshold for photoresistor 1
-const int threshold2 = 500; // Threshold for photoresistor 2
-
-volatile bool photoresistor1ReachedThreshold = false;
-volatile bool photoresistor2ReachedThreshold = false;
 
 class Motor {
     private:
@@ -48,28 +40,37 @@ class Motor {
             digitalWrite(motorPin1, LOW);
             digitalWrite(motorPin2, LOW);
         }
+
+        void reset() {
+            forward(255, 8000);
+            stopMotor();
+        }
 };
+
 
 Motor motor1(motor1_Pin1, motor1_Pin2);
 
-void setup() {
-    pinMode(buttonPin1, INPUT_PULLUP);
-    pinMode(buttonPin2, INPUT_PULLUP);
-    pinMode(photoresistorPin1, INPUT);
-    pinMode(photoresistorPin2, INPUT);
+void stopMotor1() {
+    motor1.stopMotor();
+}
 
-    // Enable interrupts for photoresistor pins
-    // attachInterrupt(digitalPinToInterrupt(photoresistorPin1), photoresistor1Interrupt, CHANGE);
-    // attachInterrupt(digitalPinToInterrupt(photoresistorPin2), photoresistor2Interrupt, CHANGE);
+void setup() {
+    pinMode(forwardStopSwitch, INPUT);
+    pinMode(backwardStopSwitch, INPUT_PULLUP);
+    // Enable interrupts for stop switch pins
+    attachInterrupt(digitalPinToInterrupt(forwardStopSwitch), stopMotor1, RISING);
+    // attachInterrupt(digitalPinToInterrupt(backwardStopSwitch), stopMotor1, FALLING);
+
+    motor1.reset();
 }
 
 void loop() {
 
-    int motorSpeed = 150;
+    int motorSpeed = 250;
     motor1.forward(motorSpeed, 2000);
-    delay(5000);
+    delay(2000);
     motor1.backward(motorSpeed, 2000);
-
+    delay(2000);
 
     // // Check if button 2 is pressed
     // if (digitalRead(buttonPin2) == LOW) {
@@ -77,15 +78,3 @@ void loop() {
     // }
 
 }
-
-void photoresistor1Interrupt() {
-    if (analogRead(photoresistorPin1) >= threshold1) {
-        photoresistor1ReachedThreshold = true;
-    }
-}
-
-// void photoresistor2Interrupt() {
-//     if (analogRead(photoresistorPin2) >= threshold2) {
-//         photoresistor2ReachedThreshold = true;
-//     }
-// }
