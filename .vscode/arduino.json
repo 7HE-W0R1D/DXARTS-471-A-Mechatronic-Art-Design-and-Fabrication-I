@@ -1,6 +1,5 @@
 {
+    "sketch": "Servo/Servo.ino",
     "board": "arduino:avr:uno",
-    "port": "COM4",
-    "sketch": "KY039\\KY039.ino",
-    "programmer": "avrisp"
+    "port": "/dev/ttyACM0"
 }
