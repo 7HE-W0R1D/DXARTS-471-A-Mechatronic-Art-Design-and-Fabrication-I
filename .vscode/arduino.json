@@ -1,5 +1,5 @@
 {
-    "sketch": "Motion Sensor/Motion Sensor.ino",
+    "sketch": "L298N/L298N.ino",
     "board": "arduino:avr:uno",
     "port": "/dev/ttyACM0"
 }

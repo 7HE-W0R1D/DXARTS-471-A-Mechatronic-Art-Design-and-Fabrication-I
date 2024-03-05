@@ -3,8 +3,8 @@
 // Pin definitions
 #define motor1_Pin1 5          // L298N motor pin 1
 #define motor1_Pin2 6          // L298N motor pin 2
-#define motor2_Pin1 9          // L298N motor pin 3
-#define motor2_Pin2 10          // L298N motor pin 4
+// #define motor2_Pin1 9          // L298N motor pin 3
+// #define motor2_Pin2 10          // L298N motor pin 4
 #define forwardStopSwitch 2         // Button for forward
 #define backwardStopSwitch 3         // Button for backward
 
@@ -54,27 +54,35 @@ void stopMotor1() {
     motor1.stopMotor();
 }
 
+void offerDisc()
+{
+    int motorSpeed = 150;
+    motor1.forward(motorSpeed, 2000);
+    delay(1000);
+
+    for(int i = 0; i < 5; i++)
+    {
+        motor1.backward(motorSpeed, 500);
+        delay(100);
+        motor1.forward(motorSpeed, 500);
+        delay(100);
+    }
+
+    motor1.backward(255, 2000);
+    delay(1000);
+}
+
 void setup() {
     pinMode(forwardStopSwitch, INPUT);
-    pinMode(backwardStopSwitch, INPUT_PULLUP);
+    // pinMode(backwardStopSwitch, INPUT_PULLUP);
     // Enable interrupts for stop switch pins
     attachInterrupt(digitalPinToInterrupt(forwardStopSwitch), stopMotor1, RISING);
-    // attachInterrupt(digitalPinToInterrupt(backwardStopSwitch), stopMotor1, FALLING);
 
-    motor1.reset();
+    // motor1.reset();
 }
 
 void loop() {
 
-    int motorSpeed = 250;
-    motor1.forward(motorSpeed, 2000);
-    delay(2000);
-    motor1.backward(motorSpeed, 2000);
-    delay(2000);
-
-    // // Check if button 2 is pressed
-    // if (digitalRead(buttonPin2) == LOW) {
-    //     motor2.backward();
-    // }
-
+    offerDisc();
+    delay(1000);
 }

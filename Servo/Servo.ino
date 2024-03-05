@@ -1,8 +1,9 @@
 #include <Servo.h>
 
 
-Servo myservo;  // create servo object to control a servo
+Servo readPinServo;  // create servo object to control a servo
 // twelve servo objects can be created on most boards
+Servo handServo;
 
 #define feedbackPin A0
 #define servoMinDegree 0
@@ -17,8 +18,6 @@ int minDegrees;
 int maxDegrees;
 int minFeedback;
 int maxFeedback;
-int tolerance = 2; // max feedback measurement error
-
 
 void calibrate(Servo servo, int analogPin, int minPos, int maxPos)
 {
@@ -35,32 +34,32 @@ void calibrate(Servo servo, int analogPin, int minPos, int maxPos)
   maxFeedback = analogRead(analogPin);
 }
 
-int reportDegrees()
-{
-  analog_input = analogRead(feedbackPin);
-  analog_mapped = map(analog_input, minFeedback, maxFeedback, minDegrees, maxDegrees);
-  Serial.print("Analog Input: ");
-  Serial.print(analog_input);
-  Serial.print("  Mapped Degrees: ");
-  Serial.println(analog_mapped);
-  return analog_mapped;
-}
+// int reportDegrees()
+// {
+//   analog_input = analogRead(feedbackPin);
+//   analog_mapped = map(analog_input, minFeedback, maxFeedback, minDegrees, maxDegrees);
+//   Serial.print("Analog Input: ");
+//   Serial.print(analog_input);
+//   Serial.print("  Mapped Degrees: ");
+//   Serial.println(analog_mapped);
+//   return analog_mapped;
+// }
 
 void setup() {
-  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  readPinServo.attach(9);  // attaches the servo on pin 9 to the servo object
   Serial.begin(9600);
     
-  calibrate(myservo, feedbackPin, servoMinDegree, servoMaxDegree);
+  // calibrate(readPinServo, feedbackPin, servoMinDegree, servoMaxDegree);
 }
 
 void loop() {
-  servoMimicHddFullRead(myservo);
-  reportDegrees();
+  servoMimicHddFullRead(readPinServo);
+  // reportDegrees();
   delay(1000);
 
   for (int i = 0; i < 10; i++) {
-    servoMimicHddRandomRead(myservo);
-    reportDegrees();
+    servoMimicHddRandomRead(readPinServo);
+    // reportDegrees();
     delay(750);
   }
 
@@ -86,4 +85,13 @@ void servoMimicHddRandomRead(Servo servo) {
   int randomPos = random(servoMinDegree, servoMaxDegree);
   Serial.println(randomPos);
   servo.write(randomPos);
+}
+
+void servoWavingHand() {
+  for (int i = 0; i < 5; i++) {
+    handServo.write(0);
+    delay(1000);
+    handServo.write(120);
+    delay(1000);
+  }
 }
