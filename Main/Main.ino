@@ -103,22 +103,28 @@ void servoWavingHand()
     }
 }
 
-void handServoIdle()
-{
-    int minPos = 0; // Minimum position of the servo
-    int maxPos = 180; // Maximum position of the servo
-    int delayTime = 2500; // Delay time between movements
+// void handServoIdle()
+// {
+//     int minPos = 0; // Minimum position of the servo
+//     int maxPos = 180; // Maximum position of the servo
+//     int delayTime = 250; // Delay time between movements
 
-    for (int i = 0; i < 5; i++) // Repeat the motion 5 times
-    {
-        int startPos = random(minPos, maxPos); // Generate a random start position
-        int randomPos = startPos + random(10, 30); // Generate a random position
-        handServo.write(startPos); // Move the hand servo to the random position
-        delay(delayTime);
-        handServo.write(randomPos); // Move the hand servo to the start position
-        delay(delayTime);
-    }
-}
+//     for (int i = 0; i < 5; i++) // Repeat the motion 5 times
+//     {            
+//         if (isHuman)
+//         {
+//             motionDetected();
+//             isHuman = false;
+//         };
+
+//         int startPos = random(minPos, maxPos); // Generate a random start position
+//         int randomPos = startPos + random(10, 30); // Generate a random position
+//         handServo.write(startPos); // Move the hand servo to the random position
+//         delay(delayTime);
+//         handServo.write(randomPos); // Move the hand servo to the start position
+//         delay(2000);
+//     }
+// }
 
 
 // Motor Setup Code
@@ -214,8 +220,10 @@ void routineFunction() {
         int randomReads = random(10, 20);
         for (int i = 0; i < randomReads; i++)
         {
-            digitalWrite(scanningLED, HIGH);
+
             servoMimicHddRandomRead(readPinServo);
+            delay(200);
+            digitalWrite(scanningLED, HIGH);
             delay(50);
             digitalWrite(scanningLED, LOW);
             // reportDegrees();
@@ -228,7 +236,25 @@ void routineFunction() {
         }
     }
     else {
-        handServoIdle();
+            int minPos = 0; // Minimum position of the servo
+    int maxPos = 180; // Maximum position of the servo
+    int delayTime = 250; // Delay time between movements
+
+    for (int i = 0; i < 5; i++) // Repeat the motion 5 times
+    {            
+        if (isHuman)
+        {
+            motionDetected();
+            isHuman = false;
+        };
+
+        int startPos = random(minPos, maxPos); // Generate a random start position
+        int randomPos = startPos + random(10, 30); // Generate a random position
+        handServo.write(startPos); // Move the hand servo to the random position
+        delay(delayTime);
+        handServo.write(randomPos); // Move the hand servo to the start position
+        delay(2000);
+    }
     }
 
 }
