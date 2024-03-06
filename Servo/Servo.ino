@@ -1,6 +1,5 @@
 #include <Servo.h>
 
-
 Servo readPinServo;  // create servo object to control a servo
 // twelve servo objects can be created on most boards
 Servo handServo;
