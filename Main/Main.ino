@@ -160,10 +160,10 @@ void offerDisc()
 }
 
 // PIR Sensor Setup Code
-#define pirPin = 3; // PIR sensor output pin
+#define pirPin 3 // PIR sensor output pin
 
 // Scanning Head Setup Code
-#define scanningLED 13; // LED pin
+#define scanningLED 13 // LED pin
 
 void setup()
 {  
