@@ -1,5 +1,8 @@
 #include <Servo.h>
 
+// Buzzer Setup Code
+#define buzzer 11
+
 // Scanning Head Setup Code
 #define scanningLED 13 // LED pin
 
@@ -14,8 +17,10 @@ void lightingEffect()
     while (delayTime > 30)
     {
         digitalWrite(scanningLED, HIGH);
+        tone(buzzer, 1000 + 1000 * temp);
         delay(delayTime);
         digitalWrite(scanningLED, LOW);
+        noTone(buzzer);
         delay(delayTime);
         counter++;
         temp = 2 / counter;
@@ -24,8 +29,10 @@ void lightingEffect()
     }
     digitalWrite(scanningLED, LOW);
     delay(1250);
+    tone(buzzer, 1000);
     digitalWrite(scanningLED, HIGH);
     delay(1000);
+    noTone(buzzer);
 }
 
 // Servo Setup Code
@@ -224,8 +231,10 @@ void routineFunction() {
             servoMimicHddRandomRead(readPinServo);
             delay(200);
             digitalWrite(scanningLED, HIGH);
+            tone(buzzer, 1000);
             delay(50);
             digitalWrite(scanningLED, LOW);
+            noTone(buzzer);
             // reportDegrees();
             delay(650);
             if (isHuman)
@@ -236,7 +245,7 @@ void routineFunction() {
         }
     }
     else {
-            int minPos = 0; // Minimum position of the servo
+    int minPos = 0; // Minimum position of the servo
     int maxPos = 180; // Maximum position of the servo
     int delayTime = 250; // Delay time between movements
 
@@ -261,6 +270,8 @@ void routineFunction() {
 
 void setup()
 {
+    pinMode(buzzer, OUTPUT);
+
     pinMode(pirPin, INPUT); // Set the PIR sensor pin as input
     // attachInterrupt(digitalPinToInterrupt(pirPin), motionDetected, RISING); // Attach interrupt to the PIR sensor pin
     attachInterrupt(digitalPinToInterrupt(pirPin), humanPresent, RISING); // Attach interrupt to the PIR sensor pin
@@ -274,6 +285,7 @@ void setup()
 
     motor1.reset();
     // calibrate(readPinServo, feedbackPin, servoMinDegree, servoMaxDegree);
+    
 }
 
 void loop()
