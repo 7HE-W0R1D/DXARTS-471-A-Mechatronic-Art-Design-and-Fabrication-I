@@ -1,3 +1,5 @@
+#include <Servo.h>
+
 // Scanning Head Setup Code
 #define scanningLED 13 // LED pin
 
@@ -27,8 +29,6 @@ void lightingEffect()
 }
 
 // Servo Setup Code
-#include <Servo.h>
-
 Servo readPinServo; // create servo object to control a servo
 // twelve servo objects can be created on most boards
 Servo handServo;
@@ -210,7 +210,7 @@ void routineFunction() {
     if (seed == 0) {
         servoMimicHddFullRead(readPinServo);
     }
-    elif (seed == 1) {
+    else if (seed == 1) {
         int randomReads = random(10, 20);
         for (int i = 0; i < randomReads; i++)
         {
